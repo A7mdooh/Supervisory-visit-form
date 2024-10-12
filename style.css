@@ -111,3 +111,12 @@ button:hover {
 .back-btn:hover {
     background-color: #c0392b;
 }
+
+#totalScore {
+  background-color: #f0f0f0;
+  padding: 15px;
+  border-radius: 10px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.5em;
+}
