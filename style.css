@@ -120,3 +120,17 @@ button:hover {
   font-weight: bold;
   font-size: 1.5em;
 }
+
+#saveButton {
+  background-color: #4CAF50; /* لون أخضر */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em;
+}
+
+#saveButton:hover {
+  background-color: #45a049;
+}
