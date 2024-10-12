@@ -189,32 +189,196 @@ document.getElementById('back-to-screen11-from-community-initiatives').addEventL
     document.getElementById('screen11').classList.remove('hidden'); // إظهار شاشة القيادة والإدارة والحوكمة
 });
 
-let totalScore = 0;
 
-// دالة لتحديث المجموع على الصفحة
-function updateTotalScore(newScore) {
-  totalScore = newScore;
-  document.getElementById('score').innerText = totalScore;
-}
 
-// دالة لحساب المجموع بناءً على التقييمات المدخلة
-function calculateTotal() {
-  let score = 0;
-  let scores = document.querySelectorAll('.evaluationInput'); // افترض أن لديك مدخلات لكل تقييم بعلامة `evaluationInput`
-  
-  scores.forEach(input => {
-    score += parseFloat(input.value) || 0; // اجمع القيم
-  });
-  
-  updateTotalScore(score);
-}
-
-// استمع لتغيير القيم وتحديث المجموع
-document.querySelectorAll('.evaluationInput').forEach(input => {
-  input.addEventListener('input', calculateTotal);
+// عند النقر على زر "القيم والاتجاهات الإيجابية"
+document.getElementById('positive-values').addEventListener('click', () => {
+    showScreen('screen15');
 });
 
-// يمكنك استدعاء دالة `calculateTotal` عند بدء الصفحة لتحديث المجموع بناءً على القيم الحالية.
-calculateTotal();
+// زر الرجوع من شاشة "القيم والاتجاهات الإيجابية" إلى شاشة "النمو الشخصي للطلبة"
+document.getElementById('back-to-screen10-from-positive-values').addEventListener('click', () => {
+    showScreen('screen10');
+});
+
+// عند النقر على زر "الممارسات المهنية للتعلم المستمر"
+document.getElementById('continuous-learning').addEventListener('click', () => {
+    showScreen('screen16');
+});
+
+// زر الرجوع من شاشة "الممارسات المهنية للتعلم المستمر" إلى شاشة "القيادة والإدارة"
+document.getElementById('back-to-screen11-from-professional-practices').addEventListener('click', () => {
+    showScreen('screen11');
+});
+
+// عند النقر على زر "المبادرات والأنشطة التربوية في المجتمع المدرسي"
+document.getElementById('community-initiatives').addEventListener('click', () => {
+    showScreen('screen17');
+});
+
+// زر الرجوع من شاشة "المبادرات والأنشطة التربوية في المجتمع المدرسي" إلى شاشة "القيادة والإدارة"
+document.getElementById('back-to-screen11-from-community-initiatives').addEventListener('click', () => {
+    showScreen('screen11');
+});
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+// تعريف المتغيرات
+let totalScore = 0; // مجموع التقييم الكلي
+
+// دالة لحفظ التقييم
+function saveEvaluation(event) {
+    event.preventDefault(); // منع إعادة تحميل الصفحة
+
+    const form = event.target.closest('form'); // الحصول على الفورم المرتبط بزر الحفظ
+    const inputs = form.querySelectorAll('.evaluationInput'); // جمع جميع المدخلات
+    let score = 0; // المتغير لحساب درجات التقييم
+
+    // التحقق من القيم المدخلة وحساب المجموع
+    let valid = true;
+    inputs.forEach(input => {
+        const value = parseFloat(input.value);
+        if (value >= parseFloat(input.min) && value <= parseFloat(input.max)) {
+            score += value;
+        } else {
+            alert("تأكد من إدخال درجات ضمن النطاق المسموح به.");
+            valid = false; // عدم السماح بالحفظ إذا كانت الدرجات خارج النطاق
+        }
+    });
+
+    // إضافة الدرجة الحالية للمجموع الكلي إذا كانت المدخلات صحيحة
+    if (valid) {
+        totalScore += score;
+
+        // تحديث عرض المجموع الكلي
+        document.getElementById('score').textContent = totalScore;
+
+        // تعطيل زر الحفظ بعد الضغط عليه
+        const saveButton = form.querySelector('.save-btn');
+        saveButton.disabled = true;
+        saveButton.textContent = "تم الحفظ";
+    }
+}
+
+// دالة لإظهار الشاشة المطلوبة وإخفاء الشاشات الأخرى
+function showScreen(screenId) {
+    document.querySelectorAll('.container > div').forEach(screen => {
+        if (screen.id === screenId) {
+            screen.classList.remove('hidden');
+        } else {
+            screen.classList.add('hidden');
+        }
+    });
+}
+
+// التنقل بين الشاشات حسب الحاجة
+document.getElementById('start-evaluation').addEventListener('click', () => {
+    showScreen('screen2');
+});
+
+// الرجوع من الشاشة الثانية إلى الشاشة الأولى
+document.getElementById('back-to-screen1').addEventListener('click', () => {
+    showScreen('screen1');
+});
+
+// الانتقال إلى شاشة بنود التدريس والتقويم
+document.getElementById('teaching-assessment').addEventListener('click', () => {
+    showScreen('screen3');
+});
+
+// الانتقال إلى شاشة إنجاز الطلبة
+document.getElementById('student-performance').addEventListener('click', () => {
+    showScreen('screen9');
+});
+
+// الانتقال إلى شاشة النمو الشخصي للطلبة
+document.getElementById('student-development').addEventListener('click', () => {
+    showScreen('screen10');
+});
+
+// الانتقال إلى شاشة القيادة والإدارة والحوكمة
+document.getElementById('leadership-governance').addEventListener('click', () => {
+    showScreen('screen11');
+});
+
+// أزرار الرجوع من الشاشات التفصيلية إلى الشاشة السابقة
+document.getElementById('back-to-screen3-from-plans').addEventListener('click', () => {
+    showScreen('screen3');
+});
+
+document.getElementById('back-to-screen3-from-environment').addEventListener('click', () => {
+    showScreen('screen3');
+});
+
+document.getElementById('back-to-screen3-from-effectiveness').addEventListener('click', () => {
+    showScreen('screen3');
+});
+
+document.getElementById('back-to-screen3-from-resources').addEventListener('click', () => {
+    showScreen('screen3');
+});
+
+document.getElementById('back-to-screen3-from-learning-assessment').addEventListener('click', () => {
+    showScreen('screen3');
+});
+
+// الانتقال إلى شاشة التحصيل الدراسي
+document.getElementById('student-achievement').addEventListener('click', () => {
+    showScreen('screen12');
+});
+
+// زر الرجوع من شاشة التحصيل الدراسي إلى شاشة إنجاز الطلبة
+document.getElementById('back-to-screen9-from-achievement').addEventListener('click', () => {
+    showScreen('screen9');
+});
+
+// زر الرجوع من شاشة التقدم الدراسي إلى شاشة إنجاز الطلبة
+document.getElementById('back-to-screen9-from-progress').addEventListener('click', () => {
+    showScreen('screen9');
+});
+
+// زر الرجوع من شاشة "مهارات التعلم من أجل المستقبل" إلى شاشة "إنجاز الطلبة"
+document.getElementById('back-to-screen9-from-future-skills').addEventListener('click', () => {
+    showScreen('screen9');
+});
+
+// عند النقر على زر "القيم والاتجاهات الإيجابية في التعلم"
+document.getElementById('positive-values').addEventListener('click', () => {
+    showScreen('screen15');
+});
+
+// زر الرجوع من شاشة "القيم والاتجاهات الإيجابية" إلى شاشة "النمو الشخصي للطلبة"
+document.getElementById('back-to-screen10-from-positive-values').addEventListener('click', () => {
+    showScreen('screen10');
+});
+
+// الانتقال إلى شاشة الممارسات المهنية للتعلم المستمر
+document.getElementById('continuous-learning').addEventListener('click', () => {
+    showScreen('screen16');
+});
+
+// زر الرجوع من شاشة "الممارسات المهنية للتعلم المستمر" إلى شاشة "القيادة والإدارة"
+document.getElementById('back-to-screen11-from-professional-practices').addEventListener('click', () => {
+    showScreen('screen11');
+});
+
+// الانتقال إلى شاشة "المبادرات والأنشطة التربوية في المجتمع المدرسي"
+document.getElementById('community-initiatives').addEventListener('click', () => {
+    showScreen('screen17');
+});
+
+// زر الرجوع من شاشة "المبادرات والأنشطة التربوية في المجتمع المدرسي" إلى شاشة "القيادة والإدارة"
+document.getElementById('back-to-screen11-from-community-initiatives').addEventListener('click', () => {
+    showScreen('screen11');
+});
