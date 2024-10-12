@@ -189,4 +189,32 @@ document.getElementById('back-to-screen11-from-community-initiatives').addEventL
     document.getElementById('screen11').classList.remove('hidden'); // إظهار شاشة القيادة والإدارة والحوكمة
 });
 
+let totalScore = 0;
+
+// دالة لتحديث المجموع على الصفحة
+function updateTotalScore(newScore) {
+  totalScore = newScore;
+  document.getElementById('score').innerText = totalScore;
+}
+
+// دالة لحساب المجموع بناءً على التقييمات المدخلة
+function calculateTotal() {
+  let score = 0;
+  let scores = document.querySelectorAll('.evaluationInput'); // افترض أن لديك مدخلات لكل تقييم بعلامة `evaluationInput`
+  
+  scores.forEach(input => {
+    score += parseFloat(input.value) || 0; // اجمع القيم
+  });
+  
+  updateTotalScore(score);
+}
+
+// استمع لتغيير القيم وتحديث المجموع
+document.querySelectorAll('.evaluationInput').forEach(input => {
+  input.addEventListener('input', calculateTotal);
+});
+
+// يمكنك استدعاء دالة `calculateTotal` عند بدء الصفحة لتحديث المجموع بناءً على القيم الحالية.
+calculateTotal();
+
 
